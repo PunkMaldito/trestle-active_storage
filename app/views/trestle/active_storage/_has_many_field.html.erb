@@ -4,18 +4,20 @@
       <% if attachments.attached? %>
         <% attachments.each do |attachment| %>
           <div class="active-storage__preview">
-            <%= link_to image_tag(main_app.url_for(attachment.variant(resize: "300x300>")), class: "active-storage__image"),
-                          main_app.rails_blob_path(attachment), target: 'blank' %>
-            
-            <%= link_to main_app.rails_blob_path(attachment, disposition: "attachment"), class: "btn btn-info" do %>
-              <i class="fa fa-download"></i>
-              <span class="btn-label">Baixar imagem %></span>
-            <% end %>
+            <% if attachment.image? %>
+              <%= link_to image_tag(main_app.url_for(attachment.variant(resize: "300x300>")), class: "active-storage__image"),
+                            main_app.rails_blob_path(attachment), target: 'blank' %>
+              
+              <%= link_to main_app.rails_blob_path(attachment, disposition: "attachment"), class: "btn btn-info" do %>
+                <i class="fa fa-download"></i>
+                <span class="btn-label">Baixar imagem</span>
+              <% end %>
 
-            <div>
-              <small><%= attachment.blob.filename %></small>
-              <%= builder.check_box("delete_#{field_name}_#{attachment.blob_id}", label: "Deletar esta imagem") %>
-            </div>
+              <div>
+                <small><%= attachment.blob.filename %></small>
+                <%= builder.check_box("delete_#{field_name}_#{attachment.blob_id}", label: "Deletar esta imagem") %>
+              </div>
+            <% end %>
           </div>
           <hr>
         <% end %>
